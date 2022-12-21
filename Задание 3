@@ -61,7 +61,28 @@ print(gg)
 
 15.
 
--
+import json
+input_str = """name,Petya,Vasya,Masha,Vova grade,5,5,8,3 subject,math,language,physics,math year,1999,2000,1995,1998"""
+name, grade, subj, year = input_str.split(' ')
+name = name.lstrip("name,")
+grade = grade.lstrip("grade,")
+subj = subj.lstrip("subject,")
+year = year.lstrip("year,")
+n = name.split(',')
+g = grade.split(',')
+s = subj.split(',')
+y = year.split(',')
+d = dict([("name", n[0]), ("grade", g[0]), ("subj", s[0]), ("year", y[0])])
+dd = dict([("name", n[1]), ("grade", g[1]), ("subj", s[1]), ("year", y[1])])
+ddd = dict([("name", n[2]), ("grade", g[2]), ("subj", s[2]), ("year", y[2])])
+dddd = dict([("name", n[3]), ("grade", g[3]), ("subj", s[3]), ("year", y[3])])
+
+d1 = json.dumps (d, indent = 4, separators = (',', ': '))
+d2 = json.dumps (dd, indent = 4, separators = (',', ': '))
+d3 = json.dumps (ddd, indent = 4, separators = (',', ': '))
+d4 = json.dumps (dddd, indent = 4, separators = (',', ': '))
+
+print(d1, d2, d3, d4)
 
 16.
 
