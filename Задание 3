@@ -1,3 +1,18 @@
+2. 
+
+print(*filter(lambda x: '2' in str(x), range(1,1001)))
+
+3.
+
+print(*filter(lambda x: str(x) == str(x)[::-1], range(1,1001)))
+
+4.
+
+a = "nks8  sd8 ewsd8    8sdc du csich7"
+print(a.count(" "))
+
+5-7 решены в codeshare
+
 8.
 
 string = "A simple sentence has the most basic elements that make it a sentence: a subject a verb and a completed thought"
