@@ -2,7 +2,7 @@ import unittest
 from main import formatted_file, read_file
 
 
-class Test_task1(unittest.TestCase):
+class Test_task3(unittest.TestCase):
     def test_pre(self):
         
         self.assertEqual(read_file("data.txt")[:2], ['She', 'married'])
