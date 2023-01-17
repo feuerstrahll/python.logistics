@@ -1,14 +1,16 @@
 import unittest
-from main.py import pre
+from tests import pre, sor, out
 
 
-class MyTestCase(unittest.TestCase):
+class Testtask(unittest.TestCase):
     def test_pre(self):
-        test = ('1. Котов Алексей: 3\n'
-                '2. Бакушкин Даниил: 3\n'
-                '3. Шахвалиева Юлиана: 4')
-        result = pre(test)
-        self.assertEqual((['Бакаушин Даниил, 3', 'Котов Алексей, 3', 'Шахвалиева Юлиана, 4']), result)
+       self.assertEqual(pre("data.txt")[0], 'Котов Алексей: 3')
+
+    def test_sor(self):
+        self.assertEqual(sor("data.txt")[0], ['Белова Юлия', '3'])
+        
+    def test_out(self):
+        self.assertEqual(out("data.txt")[0], 'Белова Юлия,3')
         
 if __name__ == '__main__':
     unittest.main()
