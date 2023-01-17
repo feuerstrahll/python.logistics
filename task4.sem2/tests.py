@@ -1,5 +1,5 @@
 import unittest
-from tests import prepare, read_file
+from main import prepare, read_file
 
 
 class Test_task4(unittest.TestCase):
