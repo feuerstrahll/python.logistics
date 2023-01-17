@@ -1,5 +1,5 @@
 import unittest
-from main.py import *
+from main.py import pre
 
 
 class MyTestCase(unittest.TestCase):
