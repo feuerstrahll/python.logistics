@@ -9,7 +9,7 @@ def formatted_to_anagrams(data):
 	        dict_f_a[s_word] = [word]
     for w in list(dict_f_a.values()):
         list_f_a.append(sorted(w))
-    return list_f_a
+    return sorted(list_f_a)
 
 words = ["eat","tea","tan","ate","nat","bat"]
 print(formatted_to_anagrams(words))
