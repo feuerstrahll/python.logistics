@@ -1,3 +1,5 @@
+from datetime import date
+
 class User:
     def __init__(self, id, username, cr_time, storage):
         self.id = id
@@ -63,7 +65,7 @@ chat_storage = ChatStorage()
         
 class Message:
     m_id_generator = 1
-    def __init__(self, id, chat_id, author_id, text, cr_time):
+    def __init__(self, id, chat_id, user_id, text, cr_time):
         self.id = id
         self.chat_id = chat_id
         self.user_id = user_id
