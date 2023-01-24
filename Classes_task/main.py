@@ -86,6 +86,23 @@ class Message:
         user_storage.get_user(user).add_message(message)
         chat_storage.get_chat(chat).add_message(message)
         return message.id
+    
+    
+class MessageStorage:
+    m_id_generator = 1
+    def __init__(self):
+        self.__RECORDS = {}
+        
+    def get_message(self, id):
+        return self.__RECORDS.get(id, None)
+    
+    def add_message(self, message):
+        global m_id_generator
+        m_id_generator += 1 
+        message.set_id(m_id_generator)
+        self.__RECORDS[m_id_generator] = message
+        self.__RECORDS[message.id] = message
+        m_id_generator += 1
         
 message_storage = Message()
         
