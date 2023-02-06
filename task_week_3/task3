@@ -6,11 +6,17 @@ values = []
 for elem in content:
     if elem['Auth'] not in values:
         values.append(elem['Auth'])
-        d = dict()
+d = dict()
 for elem in values:
     count = 0
     for word in content:
-        if word['Auth'] == elem:
+        if word['Auth'] == elem or word['Auth'] == '':
             count += 1
     d.update({elem: count})
 print(*[f'{key}: {"{:.2%}".format(i/value)}' for key, i in d.items()], sep = '\n')
+
+
+
+Question 2
+
+
