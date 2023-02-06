@@ -20,3 +20,20 @@ print(*[f'{key}: {"{:.2%}".format(i/value)}' for key, i in d.items()], sep = '\n
 Question 2
 
 
+import requests
+response = requests.get('https://api.publicapis.org/entries').json()
+content = response['entries']
+links = []
+for link in content:
+    if link['Link'] not in links:
+        links.append(link['Link'])
+api_github = []
+for link in links:
+    count = 0
+    if 'github' in link:
+        count += 1
+    api_github.append(count)
+api_github.count(1)
+
+
+Question 3
