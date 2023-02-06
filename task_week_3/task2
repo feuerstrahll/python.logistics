@@ -1,1 +1,11 @@
--
+import requests
+
+response = requests.get('https://open.er-api.com/v6/latest/USD').json()['rates']
+currency = input('Пример ввода: 100 USD -> RUB. Ваш ввод: ').split()
+quant, cur1, cur2 = int(currency[0]), currency[1], currency[3]
+if cur1 == 'USD':
+    print(quant*response[cur2])
+else:
+    print(f'''{quant} {cur1} -> {"{0:.2f}".format((response['USD']/response[cur1])*quant*response[cur2])} {cur2}''')
+print('Курс к доллару: ', cur1, response[cur1])
+print('Курс к доллару: ', cur2, response[cur2])
