@@ -37,3 +37,19 @@ api_github.count(1)
 
 
 Question 3
+
+
+import requests 
+response = requests.get('https://api.publicapis.org/entries').json()
+content = response['entries']
+values = []
+for elem in content:
+    if elem['Category'] not in values:
+        values.append(elem['Category'])
+quantity = dict()
+for elem in values:
+    count = 0
+    for word in content:
+        if word['Category'] == elem or word['Category'] == '':
+            count += 1
+    quantity.update({elem: count})
