@@ -8,7 +8,7 @@ def print_inventory(dct):
     for item, amount in dct.items():  
         l.append("{}: {}".format(item, str(amount)[1:-1].replace("'", ' ')))
     l.sort()
-    print(*li[:15], sep='\n')
+    print(*l[:15], sep='\n')
 
 list1 = []
 list2 = []
