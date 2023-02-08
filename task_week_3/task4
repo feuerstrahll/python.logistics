@@ -1,1 +1,27 @@
-k
+import requests 
+from datetime import datetime 
+response = requests.get('https://kontests.net/api/v1/sites').json()
+
+def print_inventory(dct):
+    l = []
+    print("Cоревнования:")
+    for item, amount in dct.items():  
+        l.append("{}: {}".format(item, str(amount)[1:-1].replace("'", ' ')))
+    l.sort()
+    print(*li[:15], sep='\n')
+
+list1 = []
+list2 = []
+d = {}
+date_now = datetime.now().date()
+for i in response:
+    content = (requests.get('https://kontests.net/api/v1/'+i[1]))
+    if content.status_code != 404:
+        for m in (content.json()):
+            start_time = datetime.strptime(m['start_time'][:10], "%Y-%m-%d").date()
+            url = m['url']
+            if start_time >= date_now:
+                if start_time not in slovar:
+                    d[start_time] = [url]
+                else:
+                    d[start_time].append(url)
