@@ -1,1 +1,40 @@
-ww
+import requests
+
+def print_inventory(dct):
+    print("Заработок работников за весну 2022 года: ")
+    for item, amount in dct.items():
+        print("{} - {} rub".format(item, amount))
+        
+put = input('Укажите путь к файлу с сотрудниками: ')
+txt = open(put, 'r+')
+txt = txt.readlines()
+
+rate = requests.get('https://open.er-api.com/v6/latest/USD').json()['rates']
+
+name_salary = {}
+for position in txt:
+    salary = 0
+    position = position.replace('\n', '').split(', ')
+    user = position[0]
+    currency = position[1].split()
+    quantity, cur1, cur2 = int(currency[0]), currency[1], 'RUB'
+    if cur1 == 'RUB':
+        income_per_hour = quantity
+    else:
+        income_per_hour = (rate['USD']/rate[cur1])*quantity*rate[cur2]
+    year = '2022'
+    month = '3'
+    while int(month) != 6:
+        params = {'year': year,'month':month}
+        resp = requests.get(url='https://isdayoff.ru/api/getdata', params=params)
+        if resp.ok: # 200
+            full = int(resp.text.count('0'))+int(resp.text.count('4'))
+            notfull = int(resp.text.count('2'))
+            salary += full*income_per_hour*8 + notfull*income_per_hour*7
+        else:
+            print('Ошибка!')
+            break
+        month = str(int(month)+1)
+    name_salary[user] = "{:.2f}".format(salary)
+ 
+ print_inventory(name_salary)
