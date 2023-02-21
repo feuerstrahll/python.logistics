@@ -30,6 +30,17 @@ print_inventory(diction)
 
 
 
+--------------------------------
+
+quantity of pages
+
+from bs4 import BeautifulSoup
+import requests
+url = 'https://scrapingclub.com/exercise/list_basic/'
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+items = soup.find_all('li', class_='page-item')
+print(len(items[1:]))
 
 --------------------------------
 
