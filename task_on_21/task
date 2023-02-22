@@ -42,7 +42,31 @@ soup = BeautifulSoup(response.text, 'html.parser')
 items = soup.find_all('li', class_='page-item')
 print(len(items[1:]))
 
+
+OR
+
+
+from bs4 import BeautifulSoup
+import requests
+def get_pages():
+    url = 'https://scrapingclub.com/exercise/list_basic/'
+    params = {'page': 1}
+    while True:
+        response = requests.get(url, params=params) # https://scrapingclub.com/exercise/list_basic/?page=1
+        soup = BeautifulSoup(response.text, 'html.parser')
+        last_button = soup.find_all('a', class_='page-link')[-1].text
+        print(params)
+        if last_button == 'Next':
+            params['page'] += 1
+        else:
+            break
+
+
+print(get_pages())
+
+
 --------------------------------
+
 
 from bs4 import BeautifulSoup
 import requests
