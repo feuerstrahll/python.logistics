@@ -1,0 +1,30 @@
+from bs4 import BeautifulSoup
+import requests
+import os
+
+path_to_folder = 'your full path'
+path_to_links = 'your full path'
+sort = sorted(os.listdir(path_to_folder))
+list = []
+dict = {}
+
+for file in sort:
+    if file[-4:] == 'html':
+        list.append(file)
+    else:
+        continue
+for file in list:
+    links = []
+    f = path_to_folder + file
+    with open(f, 'r') as a:
+        content = a.read()
+    soup = BeautifulSoup(content, 'html.parser')
+    link = soup.find_all('a')
+    for l in link:
+        lnks = l.get('href')
+        links.append(lnks)
+    a.close()
+    LINK = path_to_links + file[:file.index('.')] + '.txt'
+    with open(LINK, 'a') as a2:
+        a2.write("\n".join(links))
+    a2.close()
