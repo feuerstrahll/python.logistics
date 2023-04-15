@@ -1,0 +1,21 @@
+cities = '''Братислава Словакия 625167
+Брюссель Бельгия 1154635
+Будапешт Венгрия 1757618
+Белград Сербия 1233796
+Прага Чехия 1267449
+София Болгария 1286383
+Тбилиси Грузия 1118035'''
+population = dict()
+strings = cities.split('\n')
+for elem in strings:
+    capital,country,size = elem.split()
+    n = int(size)//100000*100
+    if n in population:
+        population[n].append(capital)
+    else:
+        population[n] = [capital]
+    
+population = dict(sorted(population.items()))
+
+for key, item in population.items():
+    print(f'{key}-{key+100}: {", ".join(item)}')
