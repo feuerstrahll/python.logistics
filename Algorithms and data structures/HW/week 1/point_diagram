@@ -1,0 +1,30 @@
+from tkinter import *
+
+def generate_chart(numbers):
+    max_height = max(numbers)
+    chart = []
+    chart.append("*" * (len(numbers) + 2))
+    for i in range(max_height, 0, -1):
+        row = "*"
+        for number in numbers:
+            if number >= i:
+                row += "*"
+            else:
+                row += " "
+        row += "*"
+        chart.append(row)
+    return chart
+
+numbers = [int(x) for x in input().split()]
+chart = generate_chart(numbers)
+
+t = ''
+for row in chart:
+    t += row + '\n'
+print(t)
+
+root = Tk()
+text = Text(root)
+text.pack()
+text.insert('1.0', t)
+root.mainloop()
