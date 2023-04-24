@@ -1,0 +1,16 @@
+today = input()
+p = float(input())
+q = float(input())
+n = int(input())
+weather_probabilities = {'ясно': p, 'пасмурно': 1 - q}
+weather = {'ясно': 'пасмурно', 'пасмурно': 'ясно'}
+prob = weather_probabilities[today]
+for day in range(n-1):
+    prob *= weather_probabilities[today]
+    today = weather[today] if prob < 0.5 else today
+if prob > 0.5:
+    print(today, prob)
+elif prob == 0.5:
+    print('равновероятно')
+else:
+    print('ясно', prob)
