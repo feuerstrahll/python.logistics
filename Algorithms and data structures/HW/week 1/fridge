@@ -3,6 +3,5 @@ products = [input() for i in range(int(input()))]
 for i in range(int(input())):
     dish = input()
     recipes = [input() for _ in range(int(input()))]
-    #проверяем, есть ли у нас продукты из рецепта
     if set(recipes).issubset(products):
         print(dish)
