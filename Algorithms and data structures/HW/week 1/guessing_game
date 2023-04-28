@@ -1,1 +1,36 @@
-п
+import random
+import requests
+
+url_site = f'https://www.mit.edu/~ecprice/wordlist.10000'
+response = requests.get(url_site)
+string_of_words = response.content.decode('utf-8')
+list_of_words = string_of_words.splitlines()
+
+n_random_words = [random.choice(list_of_words) for _ in range(1)]
+word = "".join(n_random_words)
+
+word_letters = set(word)
+used_letters = set()
+
+all_tries = 5
+tries = 0
+
+while len(word_letters) > 0 and tries < all_tries:
+    print('Угадайте букву:', end=' ')
+    guess = input().lower()
+    if guess in used_letters:
+        print('Вы уже использовали эту букву')
+    elif guess in word_letters:
+        word_letters.remove(guess)
+        print('Вы угадали букву')
+    else:
+        tries += 1
+        print('Этой буквы нет в слове')
+    used_letters.add(guess)
+    word_list = [letter if letter in used_letters else '_' for letter in word]
+    print(' '.join(word_list))
+
+if len(word_letters) == 0:
+    print('Вы угадали слово:', word)
+else:
+    print('Ваши попытки исчерпаны, загаданное слово - ', word)
