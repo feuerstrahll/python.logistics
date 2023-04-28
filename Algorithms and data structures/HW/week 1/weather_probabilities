@@ -1,16 +1,19 @@
-today = input()
-p = float(input())
-q = float(input())
-n = int(input())
-weather_probabilities = {'ясно': p, 'пасмурно': 1 - q}
-weather = {'ясно': 'пасмурно', 'пасмурно': 'ясно'}
-prob = weather_probabilities[today]
-for day in range(n-1):
-    prob *= weather_probabilities[today]
-    today = weather[today] if prob < 0.5 else today
-if prob > 0.5:
-    print(today, prob)
-elif prob == 0.5:
-    print('равновероятно')
+weather = {'ясно': (1, 0), 'пасмурно': (0, 1)}
+now = input()
+clr, cld = weather[now]
+p_clear = float(input())
+p_cloudy = float(input())
+days = int(input())
+
+for i in range(days):
+    clr, cld = (max(clr * p_clear, cld * (1 - p_cloudy)),
+            max(cld * p_clear, clr * (1 - p_clear)))
+if clr > cld:
+    print('ясно')
+    print(clr)
+elif cld > clr:
+    print('пасмурно')
+    print(cld)
 else:
-    print('ясно', prob)
+    print('равновероятно')
+    print(clr)
