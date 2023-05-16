@@ -1,0 +1,36 @@
+import requests
+import numpy as np
+import random
+
+
+def load_countries_name(data_len):
+    url = "https://randomuser.me/api/"
+    params = {'results': data_len}
+    response = requests.get(url, params=params)
+    data = response.json()
+    result = list(map(lambda x: x['location'], data['results']))  
+    title = [country['country'] for country in result]
+    return title
+    
+def generate_product_id(data_len):
+    return list(np.array([random.randint(1, 25) for i in range(data_len)]))
+
+def generate_region_sales(data_len):
+    return list(np.array([round(random.randint(100, 500)) for i in range(data_len)]))
+    
+def generate_regions(data_len, city_names = []):
+    regions = []
+    city_dict = {}
+    count = 1
+    for city in city_names:
+        if city not in city_dict:
+            city_dict[city] = count
+            count += 1
+        regions.append("Region " + str(city_dict[city]))
+    while len(regions) < data_len:
+        regions.append("Region " + str(count))
+        count += 1
+    return regions
+    
+data_len = 5
+data = np.column_stack((generate_product_id(data_len), generate_region_sales(data_len), generate_regions(data_len, ['hawaii','tokio','duseldorf','tokio','vashington'])))
