@@ -1,0 +1,78 @@
+import requests
+import numpy as np
+import random
+from bs4 import BeautifulSoup
+
+def load_countries_name(data_len):
+    url = "https://randomuser.me/api/"
+    params = {'results': data_len}
+    response = requests.get(url, params=params)
+    data = response.json()
+    result = list(map(lambda x: x['location'], data['results']))  
+    title = [country['country'] for country in result]
+    return title
+    
+def generate_product_id(data_len):
+    return list(np.array([random.randint(1, 25) for i in range(data_len)]))
+
+def generate_region_sales(data_len):
+    return list(np.array([random.randint(100, 500) for i in range(data_len)]))
+    
+def generate_regions(size, city_names = []):
+    regions = []
+    index = 1
+    unique_cities = list(set(city_names))
+    for i in range(size):
+        if len(unique_cities) > 0:
+            city = unique_cities.pop()
+            regions.append(f"Region {index}")
+        else:
+            regions.append(f"Region {index}")
+            index += 1
+            if index > 5:
+                index = 1
+                random.shuffle(regions)
+    return regions
+
+def extract_currency_codes():
+    url_site = f'https://www.exchangerate-api.com/docs/supported-currencies'
+    response = requests.get(url_site)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    cu = soup.find('article', class_ = 'mb-4 mb-md-6 px-3')
+    cur = soup.find_all('tr')
+    curr = [currency.find_all('td') for currency in cur]
+    country_currency_code = {}
+    for elem in curr:
+        if len(elem[0].text) == 3:
+             country_currency_code[elem[2].text] = elem[0].text
+    return country_currency_code
+    
+def get_exchange_rate(currency_code):
+    url = f"https://open.er-api.com/v6/latest/{currency_code}"
+    response = requests.get(url)
+    data = response.json()
+    rates = data.get("rates")
+    rub_value = rates["RUB"]
+    return rub_value
+
+def add_currency_and_sales_in_rub(data):
+    for i in range(data.shape[1]):
+        country = data[i, 2]
+        currency_code = currency_codes.get(country, "EUR")
+        exchange_rate = get_exchange_rate(currency_code)
+        sales = float(data[i, 1])
+        converted_sales = sales * exchange_rate
+        data[i, 4] = converted_sales
+        data[i] = np.append(data[i], currency_code)
+        
+        
+data_len = 50
+l = [ctr[2] for ctr in data]
+s = set(l)
+currency_codes = extract_currency_codes()
+data = np.column_stack((generate_product_id(data_len), generate_region_sales(data_len), load_countries_name(data_len)))
+
+np.savetxt('data.txt', data, delimiter=',', fmt='%s') 
+data = np.loadtxt('data.txt', delimiter=',', dtype=str)
+
+currency_codes = extract_currency_codes()
