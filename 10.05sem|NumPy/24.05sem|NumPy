@@ -55,24 +55,26 @@ def get_exchange_rate(currency_code):
     rub_value = rates["RUB"]
     return rub_value
 
-def add_currency_and_sales_in_rub(data):
-    for i in range(data.shape[1]):
+def in_rub(data):
+    additional_columns = np.zeros((data.shape[0], 2))
+    data = np.column_stack((data, additional_columns))
+    for i in range(data.shape[0]):
         country = data[i, 2]
-        currency_code = currency_codes.get(country, "EUR")
+        curr = extract_currency_codes()
+        currency_code = curr.get(country, "EUR")
         exchange_rate = get_exchange_rate(currency_code)
         sales = float(data[i, 1])
         converted_sales = sales * exchange_rate
+        data[i, 3] = currency_code
         data[i, 4] = converted_sales
-        data[i] = np.append(data[i], currency_code)
+    return data
         
         
 data_len = 50
-l = [ctr[2] for ctr in data]
-s = set(l)
-currency_codes = extract_currency_codes()
 data = np.column_stack((generate_product_id(data_len), generate_region_sales(data_len), load_countries_name(data_len)))
 
 np.savetxt('data.txt', data, delimiter=',', fmt='%s') 
 data = np.loadtxt('data.txt', delimiter=',', dtype=str)
 
 currency_codes = extract_currency_codes()
+in_rub(data, currency_codes)
