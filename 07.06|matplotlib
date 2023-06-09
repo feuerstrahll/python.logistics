@@ -1,0 +1,32 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import csv
+
+
+s = '''Страна    Год    Объем_торговли
+США       2010   500
+США       2011   550
+США       2012   600
+Китай     2010   450
+Китай     2011   520
+Китай     2012   590
+Германия  2010   400
+Германия  2011   420
+Германия  2012   440'''
+
+
+data = [row.split() for row in s.split('\n')]
+with open('file.csv', mode="w", encoding='utf-8') as f:
+    file_writer = csv.writer(f, delimiter = ",")
+    for i in data:
+        file_writer.writerow(i)
+df = pd.read_csv('file.csv')
+plt.figure(figsize=(10, 6))
+
+for m in df['Страна'].unique():
+    country_data = df[df['Страна'] == m]
+    plt.plot(country_data['Год'], country_data['Объем_торговли'], label=m)
+    
+plt.xlabel('Год')
+plt.ylabel('Объем торговли')
+plt.legend()
